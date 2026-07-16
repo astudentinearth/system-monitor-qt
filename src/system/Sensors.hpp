@@ -9,9 +9,10 @@ struct RamStats {
     uint64_t freePages;
     uint64_t inactivePages;
     uint64_t otherUsedPages;
+    uint64_t usedPages;
     uint64_t getAvailableVirtualMemoryBytes();
     uint64_t getUsedRam() {
-        return (this->activePages + this->inactivePages + this->otherUsedPages) * pageSize;
+        return (this->usedPages) * pageSize;
     }
 };
 unsigned long getTotalRAM();

@@ -2,10 +2,7 @@
 #include "MainWindow.hpp"
 #include "system/Sensors.hpp"
 #include <QString>
-
-double bytesToMiB(uint64_t bytes) {
-    return ((double)bytes / 1024) / 1024;
-}
+#include "util.hpp"
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   _layout = new QVBoxLayout(this);

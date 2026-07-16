@@ -63,6 +63,7 @@ RamStats getRamStats() {
     stats.freePages = vmstats.free_count + vmstats.purgeable_count;
     stats.otherUsedPages = vmstats.wire_count + vmstats.compressor_page_count;
 #endif
+    stats.usedPages = (vmstats.internal_page_count - vmstats.purgeable_count) + vmstats.wire_count + vmstats.compressor_page_count;
 
     return stats;
 }
