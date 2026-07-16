@@ -1,9 +1,15 @@
 
+#include <QApplication>
+#include <QWidget>
+#include <QLabel>
+#include <QBoxLayout>
+#include "MainWindow.hpp"
 
-#include <iostream>
 
-int main(void) {
-    std::cout << "Hello world!" << std::endl;
-    return 0;
+int main(int argc, char* argv[]) {
+    QApplication app(argc, argv);
+    MainWindow *window = new MainWindow();
+    window->show();
+    return app.exec();
 }
 

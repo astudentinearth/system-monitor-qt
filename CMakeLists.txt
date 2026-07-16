@@ -13,6 +13,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable(system-monitor src/main.cpp)
+add_executable(system-monitor 
+    src/main.cpp
+    src/MainWindow.cpp
+    src/system/Sensors.cpp
+    src/StatSource.cpp
+)
 target_link_libraries(system-monitor PRIVATE Qt6::Widgets)
 
