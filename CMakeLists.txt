@@ -16,8 +16,14 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(system-monitor 
     src/main.cpp
     src/MainWindow.cpp
-    src/system/Sensors.cpp
     src/StatSource.cpp
 )
+
+if(APPLE)
+    target_sources(system-monitor PRIVATE src/system/Sensors_darwin.cpp)
+elseif(LINUX)
+    target_sources(system-monitor PRIVATE src/system/Sensors_linux.cpp)
+endif()
+
 target_link_libraries(system-monitor PRIVATE Qt6::Widgets)
 

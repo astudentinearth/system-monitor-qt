@@ -1,24 +1,6 @@
+#ifdef __APPLE__ 
 
-#include "Sensors.hpp"
-#include <cstddef>
-#include <cstdint>
-
-#if defined(__APPLE__) || defined(__linux__)
-
-#include <unistd.h>
-
-uint64_t getPageSize() {
-    return sysconf(_SC_PAGE_SIZE);
-}
-
-#else
-uint64_t getPageSize() {
-    return 0;
-}
-#endif
-
-#ifdef __APPLE__
-
+#include "Sensors.hpp" 
 #include <sys/sysctl.h>
 #include <sys/types.h>
 #include <mach/vm_types.h>
@@ -26,6 +8,13 @@ uint64_t getPageSize() {
 #include <mach/message.h>
 #include <mach/mach.h>
 #include <mach/mach_syscalls.h>
+#include <cstddef>
+#include <cstdint>
+#include <unistd.h>
+
+uint64_t getPageSize() {
+    return sysconf(_SC_PAGE_SIZE);
+}
 
 unsigned long getTotalRAM() {
   unsigned long memsize = 0;
@@ -47,28 +36,19 @@ vm_statistics64_data_t getVmStats_mac() {
     return data;
 }
 
-#else
-unsigned long getTotalRAM() { return 0; }
-#endif
-
 RamStats getRamStats() {
     RamStats stats;
     stats.pageSize = getPageSize();
     stats.totalPhysicalRam = getTotalRAM();
 
-    #ifdef __APPLE__
     auto vmstats = getVmStats_mac();   
     stats.activePages = vmstats.active_count;
     stats.inactivePages = vmstats.inactive_count;
     stats.freePages = vmstats.free_count + vmstats.purgeable_count;
     stats.otherUsedPages = vmstats.wire_count + vmstats.compressor_page_count;
-#endif
     stats.usedPages = (vmstats.internal_page_count - vmstats.purgeable_count) + vmstats.wire_count + vmstats.compressor_page_count;
 
     return stats;
 }
 
-uint64_t RamStats::getAvailableVirtualMemoryBytes() {
-    return this->pageSize * this->freePages;
-}
-
+#endif
