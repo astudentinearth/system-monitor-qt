@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include "StatSource.hpp"
+#include "widgets/StatTableWidget.hpp"
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -15,21 +16,13 @@ class MainWindow : public QWidget {
     public:
         explicit MainWindow(QWidget* parent = nullptr);
 
-    signals:
-        void countChanged(int newCount);
-
-    public slots:
-        void increment() {
-            _count++;
-            emit countChanged(_count);
-        }
-
     private:
         int _count = 0;
         QLabel* _counter;
         QLabel* _ramStats;
         StatSource* _stats;
         QVBoxLayout* _layout;
+        StatTableWidget* _table;
         QPushButton* _btn;
         void querySensors();
         void _updateRamText(RamStats stats);

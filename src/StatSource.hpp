@@ -1,6 +1,7 @@
 
 #pragma once
 #include <QObject>
+#include <vector>
 #include "system/Sensors.hpp"
 
 class StatSource : public QObject {
@@ -11,6 +12,7 @@ class StatSource : public QObject {
 
     signals:
         void ramStatsChanged(RamStats stats);
+        void detailedStatsChanged(std::vector<Stat> stats);
 
     public slots:
         void setRamStats(RamStats stats) {
@@ -18,7 +20,13 @@ class StatSource : public QObject {
             emit(ramStatsChanged(_ramStats));
         }
 
+        void setDetailedStats(std::vector<Stat> stats) {
+            _stats = stats;
+            emit(detailedStatsChanged(stats));
+        }
+
     private:
         RamStats _ramStats;
+        std::vector<Stat> _stats;
 };
 

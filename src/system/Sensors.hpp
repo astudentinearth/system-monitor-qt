@@ -1,7 +1,15 @@
 
-
 #pragma once
 #include <cstdint>
+#include <string>
+#include <vector>
+
+struct Stat {
+    std::string label;
+    std::string unit;
+    double value;
+};
+std::ostream& operator<<(std::ostream& os, const Stat& stat);
 struct RamStats {
   uint64_t pageSize;
   uint64_t totalPhysicalRam;
@@ -18,3 +26,4 @@ struct RamStats {
 unsigned long getTotalRAM();
 
 RamStats getRamStats();
+std::vector<Stat> getRamStats2();

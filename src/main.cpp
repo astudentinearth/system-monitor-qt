@@ -3,18 +3,18 @@
 #include "system/Sensors.hpp"
 #include "util.hpp"
 #include <QApplication>
-#include <cstdio>
 #include <cstring>
+#include <iomanip>
+#include <iostream>
 
 using namespace std;
 
 int cli() {
-  RamStats ramStats = getRamStats();
-  printf("Total physical RAM: %.2f GiB (%llu bytes)\n",
-         bytesToGiB(ramStats.totalPhysicalRam), ramStats.totalPhysicalRam);
-  printf("Page size: %llu bytes\n", ramStats.pageSize);
-  printf("Used memory: %.2f GiB (%llu bytes)\n",
-         bytesToGiB(ramStats.getUsedRam()), ramStats.getUsedRam());
+  auto stats = getRamStats2();
+  cout << fixed << setprecision(2);
+  for(int i = 0; i < stats.size(); i++) {
+        cout << stats[i] << endl;
+  }
   return 0;
 }
 

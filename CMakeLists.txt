@@ -15,6 +15,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(system-monitor 
     src/main.cpp
+    src/system/Sensors.cpp
+    src/widgets/StatTableWidget.cpp
     src/MainWindow.cpp
     src/StatSource.cpp
 )
