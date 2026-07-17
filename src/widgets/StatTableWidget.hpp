@@ -19,7 +19,7 @@ public slots:
       Stat s = stats[i];
       setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s.label)));
       setItem(i, 1,
-              new QTableWidgetItem(QString("%1 %2").arg(s.value).arg(s.unit)));
+              new QTableWidgetItem(QString("%1 %2").arg(s.value, 0, 'f', 2).arg(s.unit)));
     }
     resizeColumnsToContents();
     setAlternatingRowColors(true);

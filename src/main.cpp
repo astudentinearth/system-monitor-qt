@@ -10,7 +10,7 @@
 using namespace std;
 
 int cli() {
-  auto stats = getRamStats2();
+  auto stats = getDetailedRamStats();
   cout << fixed << setprecision(2);
   for(int i = 0; i < stats.size(); i++) {
         cout << stats[i] << endl;

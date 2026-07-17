@@ -1,4 +1,4 @@
-
+#pragma once
 #include <cstdint>
 
 inline double bytesToMiB(uint64_t bytes) {

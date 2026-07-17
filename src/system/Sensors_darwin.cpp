@@ -1,3 +1,4 @@
+#include <cstring>
 #ifdef __APPLE__
 
 #include "../util.hpp"
@@ -27,6 +28,7 @@ unsigned long getTotalRAM() {
 
 vm_statistics64_data_t getVmStats_mac() {
   vm_statistics64_data_t data;
+  std::memset(&data, 0, sizeof(data));
   mach_msg_type_number_t count = HOST_VM_INFO64_COUNT;
 
   if (KERN_SUCCESS != host_statistics64(mach_host_self(), HOST_VM_INFO64,
@@ -36,18 +38,28 @@ vm_statistics64_data_t getVmStats_mac() {
   return data;
 }
 
+uint64_t getUsedSwap() {
+    struct xsw_usage swap;
+    size_t size = sizeof(swap);
+
+    if(sysctlbyname("vm.swapusage", &swap, &size, nullptr, 0) == 0) {
+        return swap.xsu_used;
+    }
+    return 0;
+
+}
+
 RamStats getRamStats() {
   RamStats stats;
-  stats.pageSize = getPageSize();
-  stats.totalPhysicalRam = getTotalRAM();
+  stats.totalBytes = getTotalRAM();
+  auto pagesize = getPageSize();
 
   auto vmstats = getVmStats_mac();
-  stats.activePages = vmstats.active_count;
-  stats.inactivePages = vmstats.inactive_count;
-  stats.freePages = vmstats.free_count + vmstats.purgeable_count;
-  stats.otherUsedPages = vmstats.wire_count + vmstats.compressor_page_count;
-  stats.usedPages = (vmstats.internal_page_count - vmstats.purgeable_count) +
-                    vmstats.wire_count + vmstats.compressor_page_count;
+  stats.usedBytes = ((vmstats.internal_page_count - vmstats.purgeable_count) +
+                     vmstats.wire_count + vmstats.compressor_page_count) *
+                    pagesize;
+
+  stats.swapBytes = getUsedSwap();
 
   return stats;
 }
@@ -57,10 +69,11 @@ uint64_t getUsedPageCount(vm_statistics64_data_t vmstats) {
          vmstats.wire_count + vmstats.compressor_page_count;
 }
 
-std::vector<Stat> getRamStats2() {
+std::vector<Stat> getDetailedRamStats() {
   auto vmstats = getVmStats_mac();
   auto ram = getTotalRAM();
   auto pagesize = getPageSize();
+  auto swap = getUsedSwap();
 
   return {{"Total physical RAM", "GiB", bytesToGiB(ram)},
           {"Page size", "bytes", static_cast<double>(pagesize)},
@@ -71,7 +84,8 @@ std::vector<Stat> getRamStats2() {
                       pagesize)},
           {"-- Wired memory", "GiB", bytesToGiB(vmstats.wire_count * pagesize)},
           {"-- Compressed memory", "GiB",
-           bytesToGiB(vmstats.compressor_page_count * pagesize)}};
+           bytesToGiB(vmstats.compressor_page_count * pagesize)},
+          {"Swapped memory", "GiB", bytesToGiB(getUsedSwap())}};
 }
 
 #endif

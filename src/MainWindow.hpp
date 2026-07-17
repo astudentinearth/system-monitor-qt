@@ -9,6 +9,8 @@
 #include <QPushButton>
 #include "StatSource.hpp"
 #include "widgets/StatTableWidget.hpp"
+#include "widgets/SensorsView.hpp"
+#include <QTimer>
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -18,13 +20,13 @@ class MainWindow : public QWidget {
 
     private:
         int _count = 0;
+        int pollInterval = 1000;
         QLabel* _counter;
-        QLabel* _ramStats;
         StatSource* _stats;
         QVBoxLayout* _layout;
         StatTableWidget* _table;
-        QPushButton* _btn;
+        Sensors *_sensorsDisplay;
+        QTimer* poll;
         void querySensors();
-        void _updateRamText(RamStats stats);
 };
 
