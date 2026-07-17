@@ -36,6 +36,11 @@ public slots:
                               .arg(bytesToGiB(stats.totalBytes), 0, 'f', 2));
   }
 
+  void cpuChanged(double percent) {
+    slot2->updateDisplay(QString("%1%").arg(percent, 0, 'f', 2));
+    slot2->updateSubtitle(QString("%1% idle\n").arg(100 - percent, 0, 'f', 2));
+  }
+
 public:
   explicit Sensors(QWidget *parent);
 

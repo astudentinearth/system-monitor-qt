@@ -28,5 +28,7 @@ class MainWindow : public QWidget {
         Sensors *_sensorsDisplay;
         QTimer* poll;
         void querySensors();
+        CpuTickStats m_startTick;
+        CpuTickStats m_endTick;
 };
 

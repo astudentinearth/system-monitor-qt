@@ -13,6 +13,7 @@ class StatSource : public QObject {
     signals:
         void ramStatsChanged(RamStats stats);
         void detailedStatsChanged(std::vector<Stat> stats);
+        void cpuUtilizationChanged(double percent);
 
     public slots:
         void setRamStats(RamStats stats) {
@@ -25,8 +26,14 @@ class StatSource : public QObject {
             emit(detailedStatsChanged(stats));
         }
 
+        void setCpuUtilization(double percent) {
+            m_cpuPercent = percent;
+            emit(cpuUtilizationChanged(m_cpuPercent));
+        }
+
     private:
         RamStats _ramStats;
+        double m_cpuPercent;
         std::vector<Stat> _stats;
 };
 

@@ -27,18 +27,25 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
           &StatTableWidget::render);
 
   connect(_stats, &StatSource::ramStatsChanged, _sensorsDisplay, &Sensors::ramChanged);
+  connect(_stats, &StatSource::cpuUtilizationChanged, _sensorsDisplay, &Sensors::cpuChanged);
 
   connect(poll, &QTimer::timeout, this, &MainWindow::querySensors);
 
   poll->start(pollInterval);
+  m_startTick = getCpuStats();
+  m_endTick = getCpuStats();
   querySensors();
 }
 
 void MainWindow::querySensors() {
   RamStats ramStats = getRamStats();
   auto detailedStats = getDetailedRamStats();
+  auto cpu = getCpuStats();
   _stats->setRamStats(ramStats);
   _stats->setDetailedStats(detailedStats);
+  m_startTick = m_endTick;
+  m_endTick = cpu;
+  _stats->setCpuUtilization(m_startTick.percentAgainst(m_endTick));
 }
 
 
