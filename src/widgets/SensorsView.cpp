@@ -7,7 +7,14 @@ LEDView::LEDView(QWidget *p, QString titleText) : QWidget(p) {
     display = new QLabel(this);
     subtitle = new QLabel(this);
 
-    setBackgroundRole(QPalette::Light);
+
+    QPalette pal = QPalette();
+    auto color = pal.color(QPalette::Window).lighter(125);
+    setObjectName("ledRoot");
+    setAttribute(Qt::WA_StyledBackground, true);
+    setStyleSheet(QString("#ledRoot { border-radius: 12px; background-color: %1; }").arg(color.name()));
+
+    setAutoFillBackground(true);
     title->setText(titleText);
     display->setText("--");
     display->setStyleSheet("font-size: 48px; font-weight: bold; ");
@@ -32,6 +39,7 @@ Sensors::Sensors(QWidget *p) : QWidget(p) {
     layout->setColumnStretch(1, 1);
     layout->addWidget(slot1, 0, 0);
     layout->addWidget(slot2, 0, 1);
+    layout->setContentsMargins(12, 12, 12, 12);
 
 }
 

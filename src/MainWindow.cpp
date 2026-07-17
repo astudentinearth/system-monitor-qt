@@ -6,8 +6,9 @@
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   _layout = new QVBoxLayout(this);
   this->setWindowTitle("System Monitor");
-  this->resize(300, 300);
+  this->resize(600, 350);
   this->setMinimumSize(300, 300);
+  _layout->setContentsMargins(0, 0, 0, 0);
 
   _stats = new StatSource(this);
 
@@ -15,18 +16,19 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   _table->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
   _sensorsDisplay = new Sensors(this);
-  _sensorsDisplay->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  _sensorsDisplay->setSizePolicy(QSizePolicy::Expanding,
+                                 QSizePolicy::Preferred);
 
   _layout->addWidget(_sensorsDisplay, 1, Qt::AlignTop);
   _layout->addWidget(this->_table, 1, Qt::AlignBottom);
 
   poll = new QTimer(this);
 
-
   connect(_stats, &StatSource::detailedStatsChanged, _table,
           &StatTableWidget::render);
 
-  connect(_stats, &StatSource::ramStatsChanged, _sensorsDisplay, &Sensors::ramChanged);
+  connect(_stats, &StatSource::ramStatsChanged, _sensorsDisplay,
+          &Sensors::ramChanged);
   connect(_stats, &StatSource::cpuTick, _sensorsDisplay, &Sensors::cpuChanged);
 
   connect(poll, &QTimer::timeout, this, &MainWindow::querySensors);
@@ -43,5 +45,3 @@ void MainWindow::querySensors() {
   _stats->setDetailedStats(detailedStats);
   _stats->pushCpuTick(cpu);
 }
-
-
