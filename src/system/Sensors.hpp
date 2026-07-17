@@ -67,10 +67,10 @@ struct CpuTickStats {
 
   std::vector<Stat> statAgainst(CpuTickStats other) {
     return {{"CPU usage", "", percentAgainst(other)},
-            {"-- %user", "", userPercent(other)},
-            {"-- %system", "", sysPercent(other)},
-            {"-- %nice", "", nicePercent(other)},
-            {"-- %idle", "", 100 - percentAgainst(other)}};
+            {"    %user", "", userPercent(other)},
+            {"    %system", "", sysPercent(other)},
+            {"    %nice", "", nicePercent(other)},
+            {"    %idle", "", 100 - percentAgainst(other)}};
   }
 
 private:

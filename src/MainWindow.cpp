@@ -17,10 +17,10 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 
   _sensorsDisplay = new Sensors(this);
   _sensorsDisplay->setSizePolicy(QSizePolicy::Expanding,
-                                 QSizePolicy::Preferred);
+                                 QSizePolicy::Fixed);
 
-  _layout->addWidget(_sensorsDisplay, 1, Qt::AlignTop);
-  _layout->addWidget(this->_table, 1, Qt::AlignBottom);
+  _layout->addWidget(_sensorsDisplay, 0, Qt::AlignTop);
+  _layout->addWidget(this->_table, 1);
 
   poll = new QTimer(this);
 

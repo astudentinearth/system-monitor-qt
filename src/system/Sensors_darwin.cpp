@@ -81,11 +81,11 @@ std::vector<Stat> getDetailedRamStats() {
           {"Page size", "bytes", static_cast<double>(pagesize)},
           {"Total used memory", "GiB",
            bytesToGiB(getUsedPageCount(vmstats) * pagesize)},
-          {"-- App memory", "GiB",
+          {"    App memory", "GiB",
            bytesToGiB((vmstats.internal_page_count - vmstats.purgeable_count) *
                       pagesize)},
-          {"-- Wired memory", "GiB", bytesToGiB(vmstats.wire_count * pagesize)},
-          {"-- Compressed memory", "GiB",
+          {"    Wired memory", "GiB", bytesToGiB(vmstats.wire_count * pagesize)},
+          {"    Compressed memory", "GiB",
            bytesToGiB(vmstats.compressor_page_count * pagesize)},
           {"Swapped memory", "GiB", bytesToGiB(getUsedSwap())}};
 }
