@@ -29,16 +29,22 @@ class Sensors : public QWidget {
 public slots:
   void ramChanged(RamStats stats) {
     slot1->updateDisplay(QString("%1%").arg(stats.usedPercent(), 0, 'f', 2));
-    slot1->updateSubtitle(QString("%1 GiB free, %2 GiB swapped\n%3 / %4 GiB used")
-                              .arg(bytesToGiB(stats.freeBytes()), 0, 'f', 2)
-                              .arg(bytesToGiB(stats.swapBytes), 0, 'f', 2)
-                              .arg(bytesToGiB(stats.usedBytes), 0, 'f', 2)
-                              .arg(bytesToGiB(stats.totalBytes), 0, 'f', 2));
+    slot1->updateSubtitle(
+        QString("%1 GiB free, %2 GiB swapped\n%3 / %4 GiB used")
+            .arg(bytesToGiB(stats.freeBytes()), 0, 'f', 2)
+            .arg(bytesToGiB(stats.swapBytes), 0, 'f', 2)
+            .arg(bytesToGiB(stats.usedBytes), 0, 'f', 2)
+            .arg(bytesToGiB(stats.totalBytes), 0, 'f', 2));
   }
 
-  void cpuChanged(double percent) {
-    slot2->updateDisplay(QString("%1%").arg(percent, 0, 'f', 2));
-    slot2->updateSubtitle(QString("%1% idle\n").arg(100 - percent, 0, 'f', 2));
+  void cpuChanged(double user, double sys, double nice) {
+    double active = user + sys + nice;
+    slot2->updateDisplay(QString("%1%").arg(active, 0, 'f', 2));
+    slot2->updateSubtitle(QString("%1% user, %2% system, %3% nice\n%4% idle")
+                              .arg(user, 0, 'f', 2)
+                              .arg(sys, 0, 'f', 2)
+                              .arg(nice, 0, 'f', 2)
+                              .arg(100 - active, 0, 'f', 2));
   }
 
 public:

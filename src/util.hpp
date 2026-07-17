@@ -10,3 +10,5 @@ inline double bytesToGiB(uint64_t bytes) {
     return bytesToMiB(bytes) / 1024;
 }
 
+
+uint16_t getTermWidth();

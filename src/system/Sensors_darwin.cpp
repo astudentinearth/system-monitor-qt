@@ -116,9 +116,11 @@ bool getCpuTicks(uint64_t &user, uint64_t &system, uint64_t &idle,
 
 CpuTickStats getCpuStats() {
     uint64_t user, system, idle, nice;
-    if(!getCpuTicks(user, system, idle, nice)) {return {.active = 0, .idle = 0};}
+    if(!getCpuTicks(user, system, idle, nice)) {return {0, 0, 0, 0};}
     return {
-        .active = user + system + nice,
+        .user = user,
+        .system = system,
+        .nice = nice,
         .idle = idle
     };
 }

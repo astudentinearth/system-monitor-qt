@@ -20,6 +20,7 @@ add_executable(system-monitor
     src/widgets/SensorsView.cpp
     src/MainWindow.cpp
     src/StatSource.cpp
+    src/util.cpp
 )
 
 if(APPLE)
