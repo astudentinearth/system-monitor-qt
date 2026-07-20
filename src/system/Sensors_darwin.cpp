@@ -1,5 +1,4 @@
 #include <cstring>
-#include <mach/host_info.h>
 #ifdef __APPLE__
 
 #include "../util.hpp"
@@ -12,6 +11,7 @@
 #include <mach/vm_statistics.h>
 #include <mach/vm_types.h>
 #include <sys/sysctl.h>
+#include <mach/host_info.h>
 #include <sys/types.h>
 #include <unistd.h>
 
