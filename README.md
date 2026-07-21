@@ -12,7 +12,7 @@
 Requires CMake 3.16+, Qt6 and a compiler that supports C++17.
 
 ### Linux
-> [IMPORTANT]
+> [!IMPORTANT]
 > Make sure the qt6 headers are installed on your system. I'll add distro specific package names here when I find the time.
 
 ```bash
